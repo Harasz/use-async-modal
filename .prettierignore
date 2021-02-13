@@ -1,0 +1,4 @@
+# generate output
+dist
+
+node_modules
