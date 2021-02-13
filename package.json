@@ -1,0 +1,25 @@
+{
+  "name": "react-use-modal",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harasz/react-use-modal.git"
+  },
+  "keywords": [
+    "react",
+    "modal",
+    "hook",
+    "usemodal"
+  ],
+  "author": "Jakub Sydor <hello@fronthouse.eu>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Harasz/react-use-modal/issues"
+  },
+  "homepage": "https://github.com/Harasz/react-use-modal#readme"
+}
