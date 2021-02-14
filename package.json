@@ -1,5 +1,5 @@
 {
-  "name": "react-use-modal",
+  "name": "use-async-modal",
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
@@ -15,20 +15,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Harasz/react-use-modal.git"
+    "url": "git+https://github.com/Harasz/use-async-modal.git"
   },
   "keywords": [
     "react",
     "modal",
     "hook",
-    "usemodal"
+    "usemodal",
+    "useasyncmodal"
   ],
   "author": "Jakub Sydor <hello@fronthouse.eu>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/Harasz/react-use-modal/issues"
+    "url": "https://github.com/Harasz/use-async-modal/issues"
   },
-  "homepage": "https://github.com/Harasz/react-use-modal#readme",
+  "homepage": "https://github.com/Harasz/use-async-modal#readme",
   "devDependencies": {
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react-hooks": "5.0.3",
