@@ -69,4 +69,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-[GPL-3.0-or-later](https://www.gnu.org/licenses/)
+[MIT](https://github.com/Harasz/use-async-modal/blob/main/LICENSE)

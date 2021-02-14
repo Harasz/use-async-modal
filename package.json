@@ -25,7 +25,7 @@
     "useasyncmodal"
   ],
   "author": "Jakub Sydor <hello@fronthouse.eu>",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Harasz/use-async-modal/issues"
   },
