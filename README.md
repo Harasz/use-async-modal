@@ -61,6 +61,8 @@ export const App = () => {
 
 As a hook argument we pass an object with properties `Component` which is our modal component. `showDialog` is a function that return promise with our value passed to function `onResolve` in `Dialog` component.
 
+More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of usage.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
