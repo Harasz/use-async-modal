@@ -24,6 +24,8 @@ export function useModal<ResultType>({
     const modalContainer = document.createElement("div");
 
     modalContainer.setAttribute("id", `modal__${containerIdPostfix}`);
+    modalContainer.setAttribute("role", "dialog");
+    modalContainer.setAttribute("aria-modal", "true");
     body?.appendChild(modalContainer);
 
     ReactDOM.render(<Component onResolve={onResolve(resolve)} />, modalContainer);
@@ -42,15 +44,16 @@ export function useModal<ResultType>({
 
   return showModal;
 }
+export default useModal;
 
-interface UseModalComponentProps<T> {
+export interface UseModalComponentProps<T> {
   onResolve(x: T): void;
 }
 
-interface UseModalOptions<T> {
+export interface UseModalOptions<T> {
   Component: FC<UseModalComponentProps<T>>;
 }
 
-type UseModalReturnType<T extends unknown> = () => Promise<T>;
+export type UseModalReturnType<T = unknown> = () => Promise<T>;
 
 const getRandomPostfix = () => Math.random().toString(36).substring(2);
