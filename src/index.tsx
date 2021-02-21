@@ -1,14 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import ReactDOM from "react-dom";
 
 export function useModal<ResultType>({
   Component,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
-  const [containerIdPostfix] = useState<string>(getRandomPostfix);
-
-  const onResolve = (resolve: (x: ResultType) => void) => {
+  const onResolve = (resolve: (x: ResultType) => void, containerIdPostfix: string) => {
     return (result: ResultType) => {
-      cleanupContainer();
+      cleanupContainer(containerIdPostfix);
       resolve(result);
     };
   };
@@ -20,6 +18,7 @@ export function useModal<ResultType>({
   };
 
   const createModal = (resolve: (v: ResultType) => void) => {
+    const containerIdPostfix = getRandomPostfix();
     const body = document.querySelector("body");
     const modalContainer = document.createElement("div");
 
@@ -28,10 +27,13 @@ export function useModal<ResultType>({
     modalContainer.setAttribute("aria-modal", "true");
     body?.appendChild(modalContainer);
 
-    ReactDOM.render(<Component onResolve={onResolve(resolve)} />, modalContainer);
+    ReactDOM.render(
+      <Component onResolve={onResolve(resolve, containerIdPostfix)} />,
+      modalContainer,
+    );
   };
 
-  const cleanupContainer = () => {
+  const cleanupContainer = (containerIdPostfix: string) => {
     const body = document.querySelector("body");
     const modalContainer = document.querySelector(`div#modal__${containerIdPostfix}`);
 
