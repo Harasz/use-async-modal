@@ -1,8 +1,11 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useRef, CSSProperties } from "react";
 import ReactDOM from "react-dom";
+import { cssPropertiesToString, getRandomPostfix } from "./helpers";
 
 export function useModal<ResultType>({
   Component,
+  overlayStyles,
+  overlayClassName,
   onOpen,
   onClose,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
@@ -30,6 +33,12 @@ export function useModal<ResultType>({
     modalContainer.setAttribute("id", `modal__${containerIdPostfix}`);
     modalContainer.setAttribute("role", "dialog");
     modalContainer.setAttribute("aria-modal", "true");
+
+    // Apply styles
+    modalContainer.classList.add("useModal__overlay");
+    overlayStyles && modalContainer.setAttribute("style", cssPropertiesToString(overlayStyles));
+    overlayClassName && modalContainer.classList.add(...overlayClassName?.split(" "));
+
     body?.appendChild(modalContainer);
 
     const containerRef: ContainerRef = {
@@ -71,6 +80,8 @@ export interface UseModalComponentProps<T> {
 
 export interface UseModalOptions<T> {
   Component: FC<UseModalComponentProps<T>>;
+  overlayStyles?: CSSProperties;
+  overlayClassName?: string;
   onOpen?: (options: UseModalOnOpenOptions) => void;
   onClose?: (options: UseModalOnCloseOptions<T>) => void;
 }
@@ -88,5 +99,3 @@ export interface ContainerRef {
 }
 
 export type UseModalReturnType<T = unknown> = () => Promise<T>;
-
-const getRandomPostfix = () => Math.random().toString(36).substring(2);
