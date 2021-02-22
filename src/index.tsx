@@ -1,12 +1,17 @@
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import ReactDOM from "react-dom";
 
 export function useModal<ResultType>({
   Component,
+  onOpen,
+  onClose,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
+  const containers = useRef<ContainerRef[]>([]);
+
   const onResolve = (resolve: (x: ResultType) => void, containerIdPostfix: string) => {
     return (result: ResultType) => {
       cleanupContainer(containerIdPostfix);
+      onClose && onClose({ resolved: result });
       resolve(result);
     };
   };
@@ -27,6 +32,14 @@ export function useModal<ResultType>({
     modalContainer.setAttribute("aria-modal", "true");
     body?.appendChild(modalContainer);
 
+    const containerRef: ContainerRef = {
+      containerRef: modalContainer,
+      containerId: containerIdPostfix,
+    };
+    containers.current.push(containerRef);
+
+    onOpen && onOpen(containerRef);
+
     ReactDOM.render(
       <Component onResolve={onResolve(resolve, containerIdPostfix)} />,
       modalContainer,
@@ -36,6 +49,10 @@ export function useModal<ResultType>({
   const cleanupContainer = (containerIdPostfix: string) => {
     const body = document.querySelector("body");
     const modalContainer = document.querySelector(`div#modal__${containerIdPostfix}`);
+
+    containers.current = containers.current.filter(
+      (container) => container.containerId !== containerIdPostfix,
+    );
 
     if (!modalContainer || !body) {
       return;
@@ -54,6 +71,20 @@ export interface UseModalComponentProps<T> {
 
 export interface UseModalOptions<T> {
   Component: FC<UseModalComponentProps<T>>;
+  onOpen?: (options: UseModalOnOpenOptions) => void;
+  onClose?: (options: UseModalOnCloseOptions<T>) => void;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UseModalOnOpenOptions extends ContainerRef {}
+
+export interface UseModalOnCloseOptions<T> {
+  resolved: T;
+}
+
+export interface ContainerRef {
+  containerId: string;
+  containerRef: HTMLDivElement;
 }
 
 export type UseModalReturnType<T = unknown> = () => Promise<T>;
