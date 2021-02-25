@@ -11,18 +11,19 @@ export const Dialog = ({ onResolve }) => {
 };
 
 export const App = () => {
-  const showDialog = useModal({
+  const { showModal, modalPortals } = useModal({
     Component: Dialog,
   });
 
   async function handleClick() {
-    const status = await showDialog();
+    const status = await showModal();
     console.log(status);
     // { accepted: true } or { accepted: false }
   }
 
   return (
     <>
+      {modalPortals}
       <button onClick={handleClick}>Open confirm dialog</button>
     </>
   );

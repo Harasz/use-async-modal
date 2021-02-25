@@ -41,17 +41,52 @@ import { useModal } from "use-async-modal";
 import { Dialog } from "./Dialog";
 
 export const App = () => {
-  const showDialog = useModal({
+    const { showModal, modalPortals } = useModal({
     Component: Dialog,
+
+    /*
+        Type: Function
+        Desc: Will be called after modal close.
+        Options:
+          - resolved: value passed to onResolve
+    */
+    onClose: ({ resolved }) => {},
+
+    /*
+        Type: Function
+        Desc: Will be called after modal open.
+        Options:
+          - containerId: string containing attribute id for overlay in DOM
+          - containerRef: HTMLDivElement ref to overlay
+    */
+    onOpen: ({ containerId, containerRef }) => {},
+
+    /*
+        Type: Object
+        Desc: Inline styles applied to overlay.
+    */
+    overlayStyles: {
+      backgroundColor: "red",
+      margin: "1px"
+    },
+
+    /*
+        Type: String
+        Desc: Classes to be applied to overlay.
+        Accept multiple classes names separated
+        by space ex. "px-1 mx-2 bg-green"
+    */
+    overlayClassName: "px-1",
   });
 
   async function handleClick() {
-    const status = await showDialog();
+    const status = await showModal();
     // { accepted: true } or { accepted: false }
   }
 
   return (
     <>
+      {modalPortals}
       <button onClick={handleClick}>Open dialog</button>
     </>
   );
@@ -59,7 +94,7 @@ export const App = () => {
 
 ```
 
-As a hook argument we pass an object with properties `Component` which is our modal component. `showDialog` is a function that return promise with our value passed to function `onResolve` in `Dialog` component.
+As a hook argument we pass an object with properties `Component` which is our modal component. `showModal` is a function that return promise with our value passed to function `onResolve` in `Dialog` component. `modalPortals` is an array containing Portals of opened modals.
 
 More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of usage.
 
