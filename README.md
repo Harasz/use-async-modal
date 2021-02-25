@@ -1,6 +1,6 @@
 # use-async-modal
 
-Show promised based modal programmatically using hook for React.js.
+Show promised based modal imperatively using hook for React.js.
 
 # Table of Contents
 
