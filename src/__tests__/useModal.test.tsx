@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { CSSProperties, FC } from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useModal } from "../index";
 
@@ -17,8 +17,16 @@ interface ComponentProps {
 }
 
 describe("useModal should", () => {
-  const { result } = renderHook(() => useModal({ Component }));
+  const overlayStyles: CSSProperties = {
+    width: "100%",
+    backgroundColor: "white",
+  };
+  const overlayInlineStyles = "width: 100%; background-color: white;";
+  const overlayClassName = "overlay modal w-100";
+
+  const { result } = renderHook(() => useModal({ Component, overlayStyles, overlayClassName }));
   let modalResult: string;
+  let modalRef: HTMLDivElement;
 
   const isBodyHasModalContainer = () => {
     const body = document.querySelector("body");
@@ -34,6 +42,7 @@ describe("useModal should", () => {
 
       if (child.id.startsWith("modal__")) {
         bodyHasModalContainer = true;
+        modalRef = child as HTMLDivElement;
       }
     }
 
@@ -42,13 +51,20 @@ describe("useModal should", () => {
 
   test("render modal container", () => {
     act(() => {
-      result.current().then((result) => (modalResult = result));
+      result.current.showModal().then((result) => (modalResult = result));
     });
 
     const modalContainer = document.querySelector("#modal-container");
 
     expect(isBodyHasModalContainer()).toBeTruthy();
     expect(modalContainer).toBeDefined();
+  });
+
+  test("modal overlay match styles", () => {
+    const overlayClasses = modalRef.classList.toString();
+
+    expect(overlayClasses).toBe("useModal__overlay " + overlayClassName);
+    expect(modalRef.style.cssText).toBe(overlayInlineStyles);
   });
 
   test("close modal container", () => {
