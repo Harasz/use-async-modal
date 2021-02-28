@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useModal } from "use-async-modal";
+import { useModal, ModalContainer } from "use-async-modal";
 
 interface ModalResult {
   accepted: boolean;
@@ -20,18 +20,19 @@ export const Dialog: FC<DialogProps> = ({ onResolve }) => {
 };
 
 export const App: FC = () => {
-  const showDialog = useModal<ModalResult>({
+  const showModal = useModal<ModalResult>({
     Component: Dialog,
   });
 
   async function handleClick() {
-    const status: ModalResult = await showDialog();
+    const status: ModalResult = await showModal();
     console.log(status);
     // { accepted: true } or { accepted: false }
   }
 
   return (
     <>
+      <ModalContainer />
       <button onClick={handleClick}>Open confirm dialog</button>
     </>
   );

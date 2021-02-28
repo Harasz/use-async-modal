@@ -1,4 +1,4 @@
-import { useModal } from "use-async-modal";
+import { useModal, ModalContainer } from "use-async-modal";
 
 export const Dialog = ({ onResolve }) => {
   return (
@@ -11,18 +11,19 @@ export const Dialog = ({ onResolve }) => {
 };
 
 export const App = () => {
-  const showDialog = useModal({
+  const showModal = useModal({
     Component: Dialog,
   });
 
   async function handleClick() {
-    const status = await showDialog();
+    const status = await showModal();
     console.log(status);
     // { accepted: true } or { accepted: false }
   }
 
   return (
     <>
+      <ModalContainer />
       <button onClick={handleClick}>Open confirm dialog</button>
     </>
   );

@@ -1,71 +1,45 @@
-import { FC } from "react";
+import { CSSProperties } from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useModal } from "../index";
-
-const Component: FC<ComponentProps> = ({ onResolve }) => {
-  return (
-    <div id="modal-container">
-      <button id={"btn"} onClick={() => onResolve("resolve")}>
-        Accept
-      </button>
-    </div>
-  );
-};
-
-interface ComponentProps {
-  onResolve(x: string): void;
-}
+import { render, fireEvent, screen } from "@testing-library/react";
+import { useModal, ModalContainer } from "../index";
+import { Component } from "./TestComponent";
 
 describe("useModal should", () => {
-  const { result } = renderHook(() => useModal({ Component }));
-  let modalResult: string;
-
-  const isBodyHasModalContainer = () => {
-    const body = document.querySelector("body");
-
-    if (!body) {
-      return;
-    }
-
-    let bodyHasModalContainer = false;
-
-    for (let index = 0; index < body.children.length; index++) {
-      const child = body.children[index];
-
-      if (child.id.startsWith("modal__")) {
-        bodyHasModalContainer = true;
-      }
-    }
-
-    return bodyHasModalContainer;
+  const overlayStyles: CSSProperties = {
+    width: "100%",
+    backgroundColor: "white",
   };
+  const overlayInlineStyles = "width: 100%; background-color: white;";
+  const overlayClassName = "overlay modal w-100";
+
+  render(<ModalContainer />);
+  const { result } = renderHook(() => useModal({ Component, overlayStyles, overlayClassName }));
+  const callback = jest.fn();
 
   test("render modal container", () => {
     act(() => {
-      result.current().then((result) => (modalResult = result));
+      result.current().then(callback);
     });
 
-    const modalContainer = document.querySelector("#modal-container");
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Dialog")).toBeInTheDocument();
+  });
 
-    expect(isBodyHasModalContainer()).toBeTruthy();
-    expect(modalContainer).toBeDefined();
+  test("modal overlay match styles", () => {
+    const overlayClasses = screen.getByRole("dialog").classList.toString();
+
+    expect(overlayClasses).toBe("useModal__overlay " + overlayClassName);
+    expect(screen.getByRole("dialog").style.cssText).toBe(overlayInlineStyles);
   });
 
   test("close modal container", () => {
-    const button = document.querySelector("#btn");
-    expect(button).toBeDefined();
+    const button = screen.getByText("Accept");
+    fireEvent.click(button);
 
-    act(() => {
-      button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
-
-    const modalContainer = document.querySelector("#modal-container");
-
-    expect(isBodyHasModalContainer()).toBeFalsy();
-    expect(modalContainer).toBeNull();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   test("match result", () => {
-    expect(modalResult).toBe("resolve");
+    expect(callback).toBeCalledWith("resolve");
   });
 });
