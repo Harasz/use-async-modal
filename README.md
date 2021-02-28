@@ -34,14 +34,14 @@ export const Dialog = ({ onResolve }) => {
 };
 ```
 
-Then in the component we want to open a modal, we need to use `useModal` hook from `use-async-modal` package.
+Then in the component we want to open a modal, we need to use `useModal` hook from `use-async-modal` package. It is necessary to add only once the `ModalContainer` component from `use-async-modal` package as high as possible in your app.
 
 ```JSX
-import { useModal } from "use-async-modal";
+import { useModal, ModalContainer } from "use-async-modal";
 import { Dialog } from "./Dialog";
 
 export const App = () => {
-    const { showModal, modalPortals } = useModal({
+    const showModal = useModal({
     Component: Dialog,
 
     /*
@@ -84,9 +84,12 @@ export const App = () => {
     // { accepted: true } or { accepted: false }
   }
 
+  /*
+        necessary to add <ModalContainer /> once at the top of app
+  */
   return (
     <>
-      {modalPortals}
+      <ModalContainer />
       <button onClick={handleClick}>Open dialog</button>
     </>
   );
@@ -94,7 +97,7 @@ export const App = () => {
 
 ```
 
-As a hook argument we pass an object with properties `Component` which is our modal component. `showModal` is a function that return promise with our value passed to function `onResolve` in `Dialog` component. `modalPortals` is an array containing Portals of opened modals.
+As a hook argument we pass an object with properties `Component` which is our modal component. `showModal` is a function that return promise with our value passed to function `onResolve` in `Dialog` component.
 
 More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of usage.
 

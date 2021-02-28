@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useModal } from "use-async-modal";
+import { useModal, ModalContainer } from "use-async-modal";
 
 export const Dialog = ({ onResolve }) => {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export const Dialog = ({ onResolve }) => {
 };
 
 export const App = () => {
-  const { showModal, modalPortals } = useModal({
+  const showModal = useModal({
     Component: Dialog,
   });
 
@@ -30,7 +30,7 @@ export const App = () => {
 
   return (
     <>
-      {modalPortals}
+      <ModalContainer />
       <button onClick={handleClick}>dialog</button>
     </>
   );
