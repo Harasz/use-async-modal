@@ -1,5 +1,5 @@
-import { useState } from "react";
 import ReactDOM from "react-dom";
+import { useAddPortal, useRemovePortal } from "./events";
 import { cssPropertiesToString, getRandomPostfix } from "./helpers";
 import {
   UseModalContainerRef,
@@ -16,7 +16,8 @@ export function useModal<ResultType>({
   onOpen,
   onClose,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
-  const [containers, setContainers] = useState<UseModalContainerRef[]>([]);
+  const addPortal = useAddPortal();
+  const removePortal = useRemovePortal();
 
   const onResolve = (resolve: ResolveFunction<ResultType>, containerIdPostfix: string) => {
     return (result: ResultType) => {
@@ -61,7 +62,8 @@ export function useModal<ResultType>({
         containerIdPostfix,
       ),
     };
-    setContainers((prev) => [...prev, containerRef]);
+
+    addPortal(containerRef);
 
     onOpen && onOpen(onOpenOptions);
   };
@@ -70,9 +72,7 @@ export function useModal<ResultType>({
     const body = document.querySelector("body");
     const modalContainer = document.querySelector(`div#modal__${containerIdPostfix}`);
 
-    setContainers((prev) =>
-      prev.filter((container) => container.containerId !== containerIdPostfix),
-    );
+    removePortal(containerIdPostfix);
 
     if (!modalContainer || !body) {
       return;
@@ -81,7 +81,5 @@ export function useModal<ResultType>({
     body.removeChild(modalContainer);
   };
 
-  const modalPortals = containers.map((container) => container.portal);
-
-  return { showModal, modalPortals };
+  return showModal;
 }

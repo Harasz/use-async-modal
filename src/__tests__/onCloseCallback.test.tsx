@@ -1,42 +1,33 @@
-import { FC } from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useModal, UseModalOnCloseOptions } from "../index";
-
-const Component: FC<ComponentProps> = ({ onResolve }) => {
-  return (
-    <div id="modal-container">
-      <button id={"btn"} onClick={() => onResolve("resolve")}>
-        Accept
-      </button>
-    </div>
-  );
-};
-
-interface ComponentProps {
-  onResolve(x: string): void;
-}
+import { render, fireEvent, screen } from "@testing-library/react";
+import { useModal, UseModalOnCloseOptions, ModalContainer } from "../index";
+import { Component } from "./TestComponent";
 
 describe("useModal onClose callback should", () => {
   let onCloseOptions: UseModalOnCloseOptions<string>;
-  const { result } = renderHook(() =>
-    useModal({ Component, onClose: (options) => (onCloseOptions = options) }),
-  );
+
+  const callback = jest.fn();
+
+  render(<ModalContainer />);
+  const { result } = renderHook(() => useModal({ Component, onClose: callback }));
 
   act(() => {
-    result.current.showModal();
+    result.current();
   });
 
   test("not be called before close", () => {
-    expect(onCloseOptions).toBeUndefined();
+    expect(callback).toBeCalledTimes(0);
+  });
+
+  test("be called after close", () => {
+    const button = screen.getByRole("button");
+
+    fireEvent.click(button);
+    expect(callback).toBeCalledTimes(1);
   });
 
   test("match result", () => {
-    const button = document.querySelector("#btn");
-    expect(button).toBeDefined();
-
-    act(() => {
-      button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    });
+    onCloseOptions = callback.mock.calls[0][0];
 
     expect(onCloseOptions.resolved).toBe("resolve");
   });

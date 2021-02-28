@@ -1,58 +1,32 @@
-import { FC } from "react";
+import { render, screen } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useModal, UseModalOnOpenOptions } from "../index";
-
-const Component: FC<ComponentProps> = ({ onResolve }) => {
-  return (
-    <div id="modal-container">
-      <button id={"btn"} onClick={() => onResolve("resolve")}>
-        Accept
-      </button>
-    </div>
-  );
-};
-
-interface ComponentProps {
-  onResolve(x: string): void;
-}
+import { useModal, UseModalOnOpenOptions, ModalContainer } from "../index";
+import { Component } from "./TestComponent";
 
 describe("useModal onOpen callback should", () => {
   let onOpenOptions: UseModalOnOpenOptions;
-  let modalRef: HTMLDivElement;
-  let modalId: string;
-  const { result } = renderHook(() =>
-    useModal({ Component, onOpen: (options) => (onOpenOptions = options) }),
-  );
 
-  const assignModalRefAndId = () => {
-    const body = document.querySelector("body");
+  const callback = jest.fn();
 
-    if (!body) {
-      return;
-    }
-
-    for (let index = 0; index < body.children.length; index++) {
-      const child = body.children[index];
-
-      if (child.id.startsWith("modal__")) {
-        modalRef = child as HTMLDivElement;
-        modalId = child.id.substr("modal__".length);
-        return;
-      }
-    }
-  };
+  render(<ModalContainer />);
+  const { result } = renderHook(() => useModal({ Component, onOpen: callback }));
 
   act(() => {
-    result.current.showModal();
+    result.current();
+  });
+
+  test("be called", () => {
+    expect(callback).toBeCalledTimes(1);
   });
 
   test("return correct modalRef", () => {
-    assignModalRefAndId();
+    onOpenOptions = callback.mock.calls[0][0];
 
-    expect(onOpenOptions.containerRef).toBe(modalRef);
+    expect(screen.getByRole("dialog")).toBe(onOpenOptions.containerRef);
   });
 
   test("return correct modalId", () => {
-    expect(onOpenOptions.containerId).toBe(modalId);
+    const id = screen.getByRole("dialog").id.substr("modal__".length);
+    expect(id).toBe(onOpenOptions.containerId);
   });
 });

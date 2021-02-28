@@ -27,7 +27,4 @@ export interface UseModalContainerRef {
   portal: ReactPortal;
 }
 
-export type UseModalReturnType<ResultType = unknown> = {
-  showModal: () => Promise<ResultType>;
-  modalPortals: ReactPortal[];
-};
+export type UseModalReturnType<ResultType = unknown> = () => Promise<ResultType>;
