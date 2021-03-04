@@ -6,10 +6,14 @@ export interface UseModalComponentProps<ResultType> {
   onResolve: ResolveFunction<ResultType>;
 }
 
-export interface UseModalOptions<ResultType> {
+export type UseModalOptions<ResultType> = UseModalOptionsBasic<ResultType>;
+
+export interface UseModalOptionsBasic<ResultType> {
   Component: FC<UseModalComponentProps<ResultType>>;
   overlayStyles?: CSSProperties;
   overlayClassName?: string;
+  closeOnEsc?: boolean;
+  defaultResolved?: ResultType;
   onOpen?: (options: UseModalOnOpenOptions) => void;
   onClose?: (options: UseModalOnCloseOptions<ResultType>) => void;
 }
