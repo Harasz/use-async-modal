@@ -14,6 +14,7 @@ export function useModal<ResultType>({
   overlayStyles,
   overlayClassName,
   closeOnEsc,
+  closeOnOverlayClick,
   defaultResolved,
   onOpen,
   onClose,
@@ -50,10 +51,29 @@ export function useModal<ResultType>({
 
     container.addEventListener("keydown", function _onEsc(e) {
       if (e.key === "Escape") {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        onResolve(defaultResolved);
+        onResolve(defaultResolved!);
         container.removeEventListener("keydown", _onEsc);
+      }
+    });
+  };
+
+  const addClickListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
+    const container = document.querySelector<HTMLDivElement>(`div#modal__${containerIdPostfix}`);
+
+    if (!defaultResolved) {
+      console.error(
+        "use-async-modal: when options `closeOnOverlayClick` is true, `defaultResolved` must be set!",
+      );
+    }
+
+    if (!container) {
+      return;
+    }
+
+    container.addEventListener("click", function _onClick(e) {
+      if (e.target === container) {
+        onResolve(defaultResolved!);
+        container.removeEventListener("click", _onClick);
       }
     });
   };
@@ -94,6 +114,8 @@ export function useModal<ResultType>({
     addPortal(containerRef);
 
     closeOnEsc && addEscListener(onOpenOptions.containerId, handleResolve);
+    closeOnOverlayClick && addClickListener(onOpenOptions.containerId, handleResolve);
+
     onOpen && onOpen(onOpenOptions);
   };
 

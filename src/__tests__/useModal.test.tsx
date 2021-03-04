@@ -19,6 +19,7 @@ describe("useModal should", () => {
       overlayStyles,
       overlayClassName,
       closeOnEsc: true,
+      closeOnOverlayClick: true,
       defaultResolved: "esc key",
     }),
   );
@@ -60,5 +61,16 @@ describe("useModal should", () => {
 
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape", code: "Escape" });
     await waitFor(() => expect(callbackEsc).toBeCalledWith("esc key"));
+  });
+
+  test("close on overlay click", async () => {
+    const callbackClick = jest.fn();
+
+    act(() => {
+      result.current().then(callbackClick);
+    });
+
+    fireEvent.click(screen.getByRole("dialog"));
+    await waitFor(() => expect(callbackClick).toBeCalledWith("esc key"));
   });
 });

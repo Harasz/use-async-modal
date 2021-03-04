@@ -13,6 +13,7 @@ export interface UseModalOptionsBasic<ResultType> {
   overlayStyles?: CSSProperties;
   overlayClassName?: string;
   closeOnEsc?: boolean;
+  closeOnOverlayClick?: boolean;
   defaultResolved?: ResultType;
   onOpen?: (options: UseModalOnOpenOptions) => void;
   onClose?: (options: UseModalOnCloseOptions<ResultType>) => void;
