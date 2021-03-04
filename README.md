@@ -48,7 +48,7 @@ export const App = () => {
         Type: Function
         Desc: Will be called after modal close.
         Options:
-          - resolved: value passed to onResolve
+          - resolved: value passed to onResolve.
     */
     onClose: ({ resolved }) => {},
 
@@ -56,8 +56,8 @@ export const App = () => {
         Type: Function
         Desc: Will be called after modal open.
         Options:
-          - containerId: string containing attribute id for overlay in DOM
-          - containerRef: HTMLDivElement ref to overlay
+          - containerId: string containing attribute id for overlay in DOM,
+          - containerRef: HTMLDivElement ref to overlay.
     */
     onOpen: ({ containerId, containerRef }) => {},
 
@@ -74,9 +74,33 @@ export const App = () => {
         Type: String
         Desc: Classes to be applied to overlay.
         Accept multiple classes names separated
-        by space ex. "px-1 mx-2 bg-green"
+        by space ex. "px-1 mx-2 bg-green".
     */
     overlayClassName: "px-1",
+
+    /*
+        Type: Bool
+        Desc: If set to true, dialog will close
+        after escape key down.
+        Default value: false
+    */
+    closeOnEsc: true,
+
+    /*
+        Type: Bool
+        Desc: If set to true, the dialog will
+        close when the overlay was clicked.
+        Default value: false
+    */
+    closeOnOverlayClick: true,
+
+    /*
+        Type: same as onResolve
+        Desc: The value passed to the onResolve
+        function when the dialog was closed with
+        the Escape key or an overlay click.
+    */
+    defaultResolved: { accepted: false },
   });
 
   async function handleClick() {

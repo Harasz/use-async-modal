@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { useModal, ModalContainer } from "../index";
 import { Component } from "./TestComponent";
 
@@ -13,7 +13,16 @@ describe("useModal should", () => {
   const overlayClassName = "overlay modal w-100";
 
   render(<ModalContainer />);
-  const { result } = renderHook(() => useModal({ Component, overlayStyles, overlayClassName }));
+  const { result } = renderHook(() =>
+    useModal({
+      Component,
+      overlayStyles,
+      overlayClassName,
+      closeOnEsc: true,
+      closeOnOverlayClick: true,
+      defaultResolved: "esc key",
+    }),
+  );
   const callback = jest.fn();
 
   test("render modal container", () => {
@@ -41,5 +50,27 @@ describe("useModal should", () => {
 
   test("match result", () => {
     expect(callback).toBeCalledWith("resolve");
+  });
+
+  test("close on ESC", async () => {
+    const callbackEsc = jest.fn();
+
+    act(() => {
+      result.current().then(callbackEsc);
+    });
+
+    fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape", code: "Escape" });
+    await waitFor(() => expect(callbackEsc).toBeCalledWith("esc key"));
+  });
+
+  test("close on overlay click", async () => {
+    const callbackClick = jest.fn();
+
+    act(() => {
+      result.current().then(callbackClick);
+    });
+
+    fireEvent.click(screen.getByRole("dialog"));
+    await waitFor(() => expect(callbackClick).toBeCalledWith("esc key"));
   });
 });
