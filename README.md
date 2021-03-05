@@ -2,7 +2,7 @@
 
 Show promised based modal imperatively using hook for React.js.
 
-![npm](https://img.shields.io/npm/v/use-async-modal?style=flat-square) ![NPM](https://img.shields.io/npm/l/use-async-modal?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Harasz/use-async-modal/npm-publish?style=flat-square) ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Harasz/use-async-modal?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/use-async-modal?style=flat-square) ![npm peer dependency version](https://img.shields.io/npm/dependency-version/use-async-modal/peer/react?style=flat-square)
+![npm](https://img.shields.io/npm/v/use-async-modal?style=flat-square) ![NPM](https://img.shields.io/npm/l/use-async-modal?style=flat-square) [![Test](https://github.com/Harasz/use-async-modal/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/Harasz/use-async-modal/actions/workflows/test.yml) ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Harasz/use-async-modal?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/use-async-modal?style=flat-square) ![npm peer dependency version](https://img.shields.io/npm/dependency-version/use-async-modal/peer/react?style=flat-square)
 
 # Table of Contents
 
