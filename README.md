@@ -2,6 +2,8 @@
 
 Show promised based modal imperatively using hook for React.js.
 
+![npm](https://img.shields.io/npm/v/use-async-modal?style=flat-square) ![NPM](https://img.shields.io/npm/l/use-async-modal?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Harasz/use-async-modal/npm-publish?style=flat-square) ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/Harasz/use-async-modal?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/use-async-modal?style=flat-square) ![npm peer dependency version](https://img.shields.io/npm/dependency-version/use-async-modal/peer/react?style=flat-square)
+
 # Table of Contents
 
 1. [Installation](#installation)
@@ -46,7 +48,7 @@ export const App = () => {
 
     /*
         Type: Function
-        Desc: Will be called after modal close.
+        Desc: It will be invoked when the window is closed.
         Options:
           - resolved: value passed to onResolve.
     */
@@ -54,7 +56,7 @@ export const App = () => {
 
     /*
         Type: Function
-        Desc: Will be called after modal open.
+        Desc: It will be invoked when the window is opened.
         Options:
           - containerId: string containing attribute id for overlay in DOM,
           - containerRef: HTMLDivElement ref to overlay.

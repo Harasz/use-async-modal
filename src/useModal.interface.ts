@@ -15,8 +15,8 @@ export interface UseModalOptionsBasic<ResultType> {
   closeOnEsc?: boolean;
   closeOnOverlayClick?: boolean;
   defaultResolved?: ResultType;
-  onOpen?: (options: UseModalOnOpenOptions) => void;
-  onClose?: (options: UseModalOnCloseOptions<ResultType>) => void;
+  onOpen?: (options: UseModalOnOpenOptions) => void | Promise<void>;
+  onClose?: (options: UseModalOnCloseOptions<ResultType>) => void | Promise<void>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
