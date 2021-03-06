@@ -8,8 +8,9 @@ Show promised based modal imperatively using hook for React.js.
 
 1. [Installation](#installation)
 2. [Usage](#usage)
-3. [Contributing](#contributing)
-4. [License](#license)
+3. [Demos](#demos)
+4. [Contributing](#contributing)
+5. [License](#license)
 
 ## Installation
 
@@ -126,6 +127,10 @@ export const App = () => {
 As a hook argument we pass an object with properties `Component` which is our modal component. `showModal` is a function that return promise with our value passed to function `onResolve` in `Dialog` component.
 
 More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of usage.
+
+## Demos
+[Confirm dialog](https://codesandbox.io/s/use-async-modal-confirm-dialog-lbb7l?file=/src/App.tsx)
+[Information dialog](https://codesandbox.io/s/use-async-modal-information-dialog-nsrpe?file=/src/App.tsx)
 
 ## Contributing
 
