@@ -1,6 +1,6 @@
 import { FC, CSSProperties, ReactPortal } from "react";
 
-export type ResolveFunction<ResultType> = (x: ResultType) => void;
+export type ResolveFunction<ResultType> = ((x: ResultType) => void) | (() => void);
 
 export interface UseModalComponentProps<ResultType> {
   onResolve: ResolveFunction<ResultType>;

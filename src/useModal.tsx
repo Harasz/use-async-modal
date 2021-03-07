@@ -39,11 +39,12 @@ export function useModal<ResultType>({
   const addEscListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
     const container = document.querySelector<HTMLDivElement>(`div#modal__${containerIdPostfix}`);
 
-    if (!defaultResolved) {
-      console.error(
-        "use-async-modal: when options `closeOnEsc` is true, `defaultResolved` must be set!",
-      );
-    }
+    // TODO: Find method to not shown error while ResultType is void
+    // if (!defaultResolved) {
+    //   console.warn(
+    //     "use-async-modal: when options `closeOnEsc` is true, `defaultResolved` must be set!",
+    //   );
+    // }
 
     if (!container) {
       return;
@@ -60,11 +61,12 @@ export function useModal<ResultType>({
   const addClickListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
     const container = document.querySelector<HTMLDivElement>(`div#modal__${containerIdPostfix}`);
 
-    if (!defaultResolved) {
-      console.error(
-        "use-async-modal: when options `closeOnOverlayClick` is true, `defaultResolved` must be set!",
-      );
-    }
+    // TODO: Find method to not shown error while ResultType is void
+    // if (!defaultResolved) {
+    //   console.warn(
+    //     "use-async-modal: when options `closeOnOverlayClick` is true, `defaultResolved` must be set!",
+    //   );
+    // }
 
     if (!container) {
       return;
