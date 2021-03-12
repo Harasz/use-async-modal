@@ -1,6 +1,12 @@
 import ReactDOM from "react-dom";
 import { useAddPortal, useRemovePortal } from "./events";
-import { cssPropertiesToString, getRandomPostfix } from "./helpers";
+import {
+  cssPropertiesToString,
+  getRandomPostfix,
+  getModalContainerById,
+  addClassesToModalContainer,
+  removeClassesFromModalContainer,
+} from "./helpers";
 import {
   UseModalContainerRef,
   UseModalReturnType,
@@ -16,6 +22,9 @@ export function useModal<ResultType>({
   closeOnEsc,
   closeOnOverlayClick,
   defaultResolved,
+  overlayClassNameOnClose,
+  overlayClassNameOnOpen,
+  closeTimeoutMs,
   onOpen,
   onClose,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
@@ -24,9 +33,21 @@ export function useModal<ResultType>({
 
   const onResolve = (resolve: ResolveFunction<ResultType>, containerIdPostfix: string) => {
     return (result: ResultType) => {
-      cleanupContainer(containerIdPostfix);
-      onClose && onClose({ resolved: result });
-      resolve(result);
+      const beforeCloseActions = () => {
+        onClose && onClose({ resolved: result });
+
+        const modalContainer = getModalContainerById(containerIdPostfix);
+        removeClassesFromModalContainer(modalContainer, overlayClassNameOnOpen);
+        addClassesToModalContainer(modalContainer, overlayClassNameOnClose);
+      };
+
+      const afterCloseActions = () => {
+        cleanupContainer(containerIdPostfix);
+        resolve(result);
+      };
+
+      beforeCloseActions();
+      closeTimeoutMs ? setTimeout(afterCloseActions, closeTimeoutMs) : afterCloseActions();
     };
   };
 
@@ -37,7 +58,7 @@ export function useModal<ResultType>({
   };
 
   const addEscListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
-    const container = document.querySelector<HTMLDivElement>(`div#modal__${containerIdPostfix}`);
+    const container = getModalContainerById(containerIdPostfix);
 
     // TODO: Find method to not shown error while ResultType is void
     // if (!defaultResolved) {
@@ -59,7 +80,7 @@ export function useModal<ResultType>({
   };
 
   const addClickListener = (containerIdPostfix: string, onResolve: (x: ResultType) => void) => {
-    const container = document.querySelector<HTMLDivElement>(`div#modal__${containerIdPostfix}`);
+    const container = getModalContainerById(containerIdPostfix);
 
     // TODO: Find method to not shown error while ResultType is void
     // if (!defaultResolved) {
@@ -93,7 +114,8 @@ export function useModal<ResultType>({
     // Apply styles
     modalContainer.classList.add("useModal__overlay");
     overlayStyles && modalContainer.setAttribute("style", cssPropertiesToString(overlayStyles));
-    overlayClassName && modalContainer.classList.add(...overlayClassName?.split(" "));
+    addClassesToModalContainer(modalContainer, overlayClassName);
+    addClassesToModalContainer(modalContainer, overlayClassNameOnOpen);
 
     body?.appendChild(modalContainer);
 
@@ -123,7 +145,7 @@ export function useModal<ResultType>({
 
   const cleanupContainer = (containerIdPostfix: string) => {
     const body = document.querySelector("body");
-    const modalContainer = document.querySelector(`div#modal__${containerIdPostfix}`);
+    const modalContainer = getModalContainerById(containerIdPostfix);
 
     removePortal(containerIdPostfix);
 

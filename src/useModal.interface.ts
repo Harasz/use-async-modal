@@ -15,6 +15,9 @@ export interface UseModalOptionsBasic<ResultType> {
   closeOnEsc?: boolean;
   closeOnOverlayClick?: boolean;
   defaultResolved?: ResultType;
+  overlayClassNameOnOpen?: string;
+  overlayClassNameOnClose?: string;
+  closeTimeoutMs?: number;
   onOpen?: (options: UseModalOnOpenOptions) => void | Promise<void>;
   onClose?: (options: UseModalOnCloseOptions<ResultType>) => void | Promise<void>;
 }
