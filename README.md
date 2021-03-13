@@ -104,6 +104,36 @@ export const App = () => {
         the Escape key or an overlay click.
     */
     defaultResolved: { accepted: false },
+
+    /*
+        Type: String
+        Desc: Classes to be applied to overlay
+        after closing. Accept multiple classes
+        names separated by space.
+    */
+    overlayClassNameOnClose: "fade-out",
+
+    /*
+        Type: same as onResolve
+        Desc: Classes to be applied to overlay
+        when open. Accept multiple classes names
+        separated by space.
+    */
+    overlayClassNameOnOpen: "fade-in",
+
+    /*
+        Type: Number (unit: ms)
+        Desc: Delayed closing time expressed
+        in milliseconds.
+    */
+    closeTimeoutMs: 1000,
+
+    /*
+        Type: Bool (default: true)
+        Desc: Locking the scrollbar on the page
+        when the model is open.
+    */
+    blockBodyScroll: true,
   });
 
   async function handleClick() {
@@ -129,6 +159,7 @@ As a hook argument we pass an object with properties `Component` which is our mo
 More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of usage.
 
 ## Demos
+
 [Confirm dialog](https://codesandbox.io/s/use-async-modal-confirm-dialog-lbb7l?file=/src/App.tsx)
 
 [Information dialog](https://codesandbox.io/s/use-async-modal-information-dialog-nsrpe?file=/src/App.tsx)

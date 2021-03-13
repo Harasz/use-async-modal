@@ -17,7 +17,6 @@ jobs:
       - run: yarn
       - run: yarn test
       - run: yarn build
-      - run: npm version ${{github.event.release.tag_name}}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

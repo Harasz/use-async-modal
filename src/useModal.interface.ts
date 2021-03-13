@@ -1,6 +1,6 @@
 import { FC, CSSProperties, ReactPortal } from "react";
 
-export type ResolveFunction<ResultType> = (x: ResultType) => void;
+export type ResolveFunction<ResultType> = ((x: ResultType) => void) | (() => void);
 
 export interface UseModalComponentProps<ResultType> {
   onResolve: ResolveFunction<ResultType>;
@@ -15,6 +15,10 @@ export interface UseModalOptionsBasic<ResultType> {
   closeOnEsc?: boolean;
   closeOnOverlayClick?: boolean;
   defaultResolved?: ResultType;
+  overlayClassNameOnOpen?: string;
+  overlayClassNameOnClose?: string;
+  closeTimeoutMs?: number;
+  blockBodyScroll?: boolean;
   onOpen?: (options: UseModalOnOpenOptions) => void | Promise<void>;
   onClose?: (options: UseModalOnCloseOptions<ResultType>) => void | Promise<void>;
 }
@@ -30,6 +34,7 @@ export interface UseModalContainerRef {
   containerId: string;
   containerRef: HTMLDivElement;
   portal: ReactPortal;
+  blockBodyScroll: boolean;
 }
 
 export type UseModalReturnType<ResultType = unknown> = () => Promise<ResultType>;
