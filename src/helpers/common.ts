@@ -36,3 +36,8 @@ export const removeClassesFromModalContainer = (
 
   classes && modalContainer.classList.remove(...classes?.split(" "));
 };
+
+export const blockBodyScroll = (block: boolean): void => {
+  const prop = block ? "hidden" : "";
+  document.body.style.overflow = prop;
+};

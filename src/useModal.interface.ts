@@ -18,6 +18,7 @@ export interface UseModalOptionsBasic<ResultType> {
   overlayClassNameOnOpen?: string;
   overlayClassNameOnClose?: string;
   closeTimeoutMs?: number;
+  blockBodyScroll?: boolean;
   onOpen?: (options: UseModalOnOpenOptions) => void | Promise<void>;
   onClose?: (options: UseModalOnCloseOptions<ResultType>) => void | Promise<void>;
 }
@@ -33,6 +34,7 @@ export interface UseModalContainerRef {
   containerId: string;
   containerRef: HTMLDivElement;
   portal: ReactPortal;
+  blockBodyScroll: boolean;
 }
 
 export type UseModalReturnType<ResultType = unknown> = () => Promise<ResultType>;

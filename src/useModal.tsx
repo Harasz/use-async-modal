@@ -25,6 +25,7 @@ export function useModal<ResultType>({
   overlayClassNameOnClose,
   overlayClassNameOnOpen,
   closeTimeoutMs,
+  blockBodyScroll,
   onOpen,
   onClose,
 }: UseModalOptions<ResultType>): UseModalReturnType<ResultType> {
@@ -122,6 +123,7 @@ export function useModal<ResultType>({
     const onOpenOptions: UseModalOnOpenOptions = {
       containerRef: modalContainer,
       containerId: containerIdPostfix,
+      blockBodyScroll: blockBodyScroll ?? true,
     };
 
     const handleResolve = onResolve(resolve, containerIdPostfix);
