@@ -160,9 +160,13 @@ More [examples](https://github.com/Harasz/use-async-modal/tree/main/examples) of
 
 ## Demos
 
-[Confirm dialog](https://codesandbox.io/s/use-async-modal-confirm-dialog-lbb7l?file=/src/App.tsx)
+[Confirm dialog](https://codesandbox.io/s/use-async-modal-confirm-dialog-lbb7l)
 
-[Information dialog](https://codesandbox.io/s/use-async-modal-information-dialog-nsrpe?file=/src/App.tsx)
+[Information dialog](https://codesandbox.io/s/use-async-modal-information-dialog-nsrpe)
+
+[Dialog with input](https://codesandbox.io/s/use-async-modal-dialog-with-input-jxobn)
+
+[Animated dialog](https://codesandbox.io/s/use-async-modal-animated-dialog-808yp)
 
 ## Contributing
 
